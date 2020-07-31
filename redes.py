@@ -17,44 +17,22 @@ a = float(input("Constante del diodo: "))
 q = 1.60217646*pow(10, -19)
 k = 1.3806503*pow(10, -23)
 vt = (Ns*k*t)/q
-print(vt)
 Dt = t - tn
-iph = (Iscn + Ki*Dt)*G/Gn
-print(iph)
+iph = (Iscn + Ki*Dt)/Gn
+print("El valor por el que se debe multiplicar la irradiancia es"+str(iph))
 io = (Iscn + Ki*Dt)/(exp((Voc+(Kv*Dt))/(vt*a))-1)
-print(io)
-rmpp = Vmpp/Impp
-rs = 0
-rsm = (Voc - Vmpp)/Impp
-rss =rsm/1000
-vt1 = (1.25*1.381*pow(10,-23)*t)/(1.602*pow(10,-19))
-N0 = rmpp*(Vmpp-(Ns*vt))
-N1 = (Ns*vt1)-(Iscn*rmpp)
-N2 = Iscn - Impp
-D0 = (Iscn*Impp) - Vmpp - (Ns*vt1)
-D1 = Impp - Iscn
-rsh = ((N2*pow(rs,2))+(N1*rs)+N0)/((D1*rs) + D0)
-B = -Vmpp + (Ns*vt*Impp*Voc)/Iscn*Vmpp
-C = Iscn - Impp - (Ns*vt*Impp)/Vmpp
-D = Impp - Iscn - (Iscn*exp((Vmpp+(Impp*rs)-Voc)/Ns*vt))
-rscomp = -1*(B*D0 - D*N0)/(C*D0 + B*D1 - D*N1)
-rshcomp = (B + C*rs)/D
-vtp=vt
-while(abs(rs-rscomp)>0.0001 and rs>rscomp and rsh > rshcomp):
-    rs = rs + rss
-    vt = ((Iscn*rs)-Voc)/(Ns*log(abs((Ns*vtp*rs)/((Iscn*rsh + Iscn*rs -Voc)*(rsh - rs)))))
-    N0 = rmpp*(Vmpp-(Ns*vt))
-    N1 = (Ns*vt1)-(Iscn*rmpp)
-    N2 = Iscn - Impp
-    D0 = (Iscn*Impp) - Vmpp - (Ns*vt1)
-    D1 = Impp - Iscn
-    rsh = abs(((N2*pow(rs,2))+(N1*rs)+N0)/((D1*rs) + D0))
-    B = -Vmpp + (Ns*vt*Impp*Voc)/Iscn*Vmpp
-    C = Iscn - Impp - (Ns*vt*Impp)/Vmpp
-    D = Impp - Iscn - (Iscn*exp((Vmpp+(Impp*rs)-Voc)/Ns*vt))
-    rscomp = -1*(B*D0 - D*N0)/(C*D0 + B*D1 - D*N1)
-    rshcomp = (B + C*rs)/D
-    vtp=vt
-print(rs)
-print(rsh)
-
+print("La corriente de saturacion del diodo a "+str(t)+" es igual a " + str(io))
+print("Luego de haber hecho la simulacion en Proteus, ingrese aqui los siguientes valores:")
+Impp = float(input("Ingrese la corriente de maxima potencia antes del Buck-Boost: "))
+Vmpp = float(input("Ingrese el voltaje de maxima potencia antes del Buck-Boost: "))
+Vo = float(input("Ingrese el voltaje a la salida del Buck-Boost: "))
+Po = float(input("Ingrese la potencia a la salida del Buck-Boost: "))
+Rl= round(pow(Vo,2)/Po)
+n=Po/(Impp*Vmpp)
+alpha= Vo/Vmpp
+D=alpha/(1+ alpha)
+req=round(n*D*Rl)
+print("La eficiencia es:"+str(n))
+print("El Duty Cycle es :"+str(D))
+print("La Resistencia de carga es:"+str(Rl)+" ohmios")
+print("La resistencia equivalente es:"+str(req))
