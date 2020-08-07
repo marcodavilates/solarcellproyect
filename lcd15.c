@@ -17,7 +17,7 @@
 #include "lcd.h"
 
 #pragma config FOSC = HS
-#pragma config WDTE = OFF
+#pragma config WDTE = ON
 #pragma config PWRTE = OFF
 #pragma config BOREN = ON
 #pragma config LVP = OFF
@@ -26,6 +26,7 @@
 
 void main(void) {
     unsigned int a;
+    OSCCON = 0b01110000;
     TRISB0 = 0;
     TRISB1 = 0;
     TRISD = 0b00000000;
@@ -40,22 +41,12 @@ void main(void) {
        RB0 = 1;
        RD1 = 1;
        __delay_ms(1000);
+       Lcd_Clear();
        Lcd_Set_Cursor(1,1);
        Lcd_Write_String("Te quiero");
        Lcd_Set_Cursor(2,1);
        Lcd_Write_String("Gabriela Granda");
-       __delay_ms(2000);
-       Lcd_Clear();
-       Lcd_Set_Cursor(1,1);
-       Lcd_Write_String("Juancito OTAKU");
-       Lcd_Set_Cursor(2,1);
-       Lcd_Write_String("Ve Vegeta777");
-       __delay_ms(2000);
-       Lcd_Clear();
-       Lcd_Set_Cursor(1,1);
-       Lcd_Write_String("Marco Davila");
-       Lcd_Set_Cursor(2,1);
-       Lcd_Write_String("EL CRACK");
+       __delay_ms(1000);
     }   
     return;
 }
