@@ -61,7 +61,9 @@ void PWM_Duty(unsigned int duty){
     }
 }
 void main(void) {
-   int adc;
+   int adc, adcp;
+   adcp=0;
+   unsigned int D = 512;
    float d;
    char s[16];
 //  PUERTOS
@@ -78,15 +80,23 @@ void main(void) {
    Lcd_Init();
     while(1){
        adc = ADC_Read(0); 
-       PWM_Duty(adc);
-       __delay_ms(100);
-       d = ((float)adc/1023);
-       Lcd_Clear();
-       __delay_ms(200);
-       Lcd_Set_Cursor(1,1);
-       sprintf(s,"D is: %f",d);
-       __delay_us(20);
-       Lcd_Write_String(s);
+       if(adc>adcp){
+        D+=5;
+        PWM_Duty(D);
+       }
+       else if(adc<adcp){
+           D-=5;
+           PWM_Duty(D);
+       }
+       d = ((float)D/1023);
+        Lcd_Clear();
+        __delay_ms(50);
+        Lcd_Set_Cursor(1,1);
+        sprintf(s,"D is: %f",d);
+        __delay_us(20);
+        Lcd_Write_String(s);
+        adcp=adc;
+       
     };
     return;
 }

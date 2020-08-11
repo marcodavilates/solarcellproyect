@@ -1,50 +1,35 @@
 //LCD Functions Developed by electroSome
-		
+
 
 void Lcd_Port(char a)
 {
-	if(a & 1){
+	if(a & 1)
 		D4 = 1;
-		__delay_us(5);
-	}
-	else{
+	else
 		D4 = 0;
-		__delay_us(5);
-	}
-	if(a & 2){
+
+	if(a & 2)
 		D5 = 1;
-		__delay_us(5);
-	}	
-	else{
+	else
 		D5 = 0;
-		__delay_us(5);
-	}
-	if(a & 4){
+
+	if(a & 4)
 		D6 = 1;
-		__delay_us(5);
-	}	
-	else{
+	else
 		D6 = 0;
-		__delay_us(5);
-	}
-	if(a & 8){
+
+	if(a & 8)
 		D7 = 1;
-		__delay_us(5);
-	}
-	else{
+	else
 		D7 = 0;
-		__delay_us(5);
-	}
 }
 void Lcd_Cmd(char a)
 {
-	RS = 0;              // => RS = 0
-	__delay_us(5);
+	RS = 0;             // => RS = 0
 	Lcd_Port(a);
 	EN  = 1;             // => E = 1
-        __delay_ms(6);
+        __delay_ms(4);
         EN  = 0;             // => E = 0
-		__delay_us(5);
 }
 
 Lcd_Clear()
@@ -127,4 +112,3 @@ void Lcd_Shift_Left()
 	Lcd_Cmd(0x01);
 	Lcd_Cmd(0x08);
 }
-
